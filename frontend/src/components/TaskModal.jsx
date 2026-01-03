@@ -12,6 +12,7 @@ export default function TaskModal({ projectId, task, onClose, onSaved }) {
   const [saving, setSaving] = useState(false);
   const [loadingUsers, setLoadingUsers] = useState(true);
 
+  
   useEffect(() => {
     loadUsers();
   }, []);
@@ -103,4 +104,5 @@ export default function TaskModal({ projectId, task, onClose, onSaved }) {
       </div>
     </div>
   );
+
 }

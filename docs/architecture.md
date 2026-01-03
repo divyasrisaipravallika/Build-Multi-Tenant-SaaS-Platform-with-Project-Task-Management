@@ -35,7 +35,9 @@ The database follows a shared schema multi-tenant design where all tenant data i
   - id (PK)
   - name
   - subdomain (UNIQUE)
-  - plan
+  - subscription_plan
+  - max_users
+  - max_projects
   - created_at
 
 - **users**
@@ -43,13 +45,17 @@ The database follows a shared schema multi-tenant design where all tenant data i
   - tenant_id (FK, nullable for Super Admin)
   - email
   - password_hash
+  - full_name
   - role
+  - is_active
   - created_at
 
 - **projects**
   - id (PK)
   - tenant_id (FK)
   - name
+  - description
+  - status
   - created_at
 
 - **tasks**
@@ -57,7 +63,11 @@ The database follows a shared schema multi-tenant design where all tenant data i
   - tenant_id (FK)
   - project_id (FK)
   - title
+  - description
   - status
+  - priority
+  - assigned_to
+  - due_date
   - created_at
 
 - **audit_logs**
@@ -65,6 +75,9 @@ The database follows a shared schema multi-tenant design where all tenant data i
   - tenant_id (FK)
   - user_id (FK)
   - action
+  - entity_type
+  - entity_id
+  - ip_address
   - created_at
 
 ### Relationships:
@@ -92,6 +105,10 @@ Indexes are applied on all `tenant_id` columns to improve query performance and 
   Auth Required: No  
   Roles: Public  
 
+- **POST /api/auth/me**  
+  Auth Required: Yes  
+  Roles: All authenticated users
+
 - **POST /api/auth/logout**  
   Auth Required: Yes  
   Roles: All authenticated users
@@ -100,7 +117,7 @@ Indexes are applied on all `tenant_id` columns to improve query performance and 
 
 ### Tenant Module
 
-- **GET /api/tenant/me**  
+- **GET /api/tenants/:tenantId**  
   Auth Required: Yes  
   Roles: Tenant Admin  
 
@@ -108,27 +125,27 @@ Indexes are applied on all `tenant_id` columns to improve query performance and 
   Auth Required: Yes  
   Roles: Super Admin  
 
-- **PATCH /api/tenant/plan**  
+- **PUT /api/tenants/:tenantId**  
   Auth Required: Yes  
-  Roles: Super Admin
+  Roles: Tenant Admin
 
 ---
 
 ### User Module
 
-- **POST /api/users**  
+- **POST /api/tenants/:tenantId/users**  
   Auth Required: Yes  
   Roles: Tenant Admin  
 
-- **GET /api/users**  
+- **GET /api/tenants/:tenantId/users**  
   Auth Required: Yes  
   Roles: Tenant Admin  
 
-- **GET /api/users/:id**  
+- **PUT /api/users/:userId**  
   Auth Required: Yes  
-  Roles: Tenant Admin  
+  Roles: Tenant Admin, Self (Only full_name)
 
-- **DELETE /api/users/:id**  
+- **DELETE /api/users/:userId**  
   Auth Required: Yes  
   Roles: Tenant Admin 
 
@@ -138,48 +155,53 @@ Indexes are applied on all `tenant_id` columns to improve query performance and 
 
 - **POST /api/projects**  
   Auth Required: Yes  
-  Roles: Tenant Admin  
+  Roles: Tenant Admin, User
 
 - **GET /api/projects**  
   Auth Required: Yes  
   Roles: Tenant Admin, User  
 
-- **GET /api/projects/:id**  
+- **PUT /api/projects/:projectId**  
   Auth Required: Yes  
-  Roles: Tenant Admin, End User  
+  Roles: Tenant Admin, User (Project Creator) 
 
-- **DELETE /api/projects/:id**  
+- **DELETE /api/projects/:projectId**  
   Auth Required: Yes  
-  Roles: Tenant Admin
+  Roles: Tenant Admin, User (Project Creator)
 
 ---
 
 ### Task Module
 
-- **POST /api/tasks**  
+- **POST /api/projects/:projectId/tasks**  
   Auth Required: Yes  
   Roles: Tenant Admin, User  
 
-- **GET /api/tasks**  
+- **GET /api/projects/:projectId/tasks**  
   Auth Required: Yes  
   Roles: Tenant Admin, User  
 
-- **GET /api/tasks/:id**  
-  Auth Required: Yes  
-  Roles: Tenant Admin, End User  
-
-- **PATCH /api/tasks/:id**  
+- **PATCH /api/tasks/:taskId/status**  
   Auth Required: Yes  
   Roles: Tenant Admin, End User
+
+- **PUT /api/tasks/:taskId**  
+  Auth Required: Yes  
+  Roles: Tenant Admin, End User  
 
 ---
 
 ### System Module
 
+- **GET /api/projects/all**  
+  Auth Required: Yes  
+  Roles: Super Admin
+
+- **GET /api/tasks/all**  
+  Auth Required: Yes  
+  Roles: Super Admin
+
 - **GET /api/health**  
   Auth Required: No  
   Roles: Public  
 
-- **GET /api/audit-logs**  
-  Auth Required: Yes  
-  Roles: Super Admin, Tenant Admin

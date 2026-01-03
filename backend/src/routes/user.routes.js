@@ -10,7 +10,6 @@ router.post(
   role('tenant_admin'),
   controller.addUser
 );
-
 // API 9 — List tenant users
 router.get(
   '/api/tenants/:tenantId/users',
@@ -34,3 +33,4 @@ router.delete(
 );
 
 module.exports = router;
+

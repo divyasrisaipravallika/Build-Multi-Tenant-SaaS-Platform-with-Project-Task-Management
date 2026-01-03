@@ -154,8 +154,7 @@ VITE_API_BASE_URL=http://backend:5000
 
 1. Clone the repository:
 ```
-git clone https://github.com/SRINIJA-PULLIPUDI/Multi-Tenant-SaaS-Platform-with-Project-and-Task-Management-System.git
-```
+git clone https://github.com/divyasrisaipravallika/Build-Multi-Tenant-SaaS-Platform-with-Project-Task-Management.git
 
 2. Navigate to the project root:
 ```
@@ -193,4 +192,5 @@ cd backend
 2. Run tests:
 ```
 npm test
+
 ```

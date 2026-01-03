@@ -3,7 +3,6 @@ import { useAuth } from "../auth/AuthContext";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
-
   return (
     <nav className="nav">
       <Link to="/" className="TestDec">SaaS Platform</Link>
@@ -14,3 +13,4 @@ export default function Navbar() {
     </nav>
   );
 }
+

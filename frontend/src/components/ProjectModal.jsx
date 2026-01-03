@@ -10,6 +10,7 @@ export default function ProjectModal({ project, onClose, onSaved }) {
   async function save() {
     if (!name.trim()) return alert("Name required");
 
+    
     if (project) {
       await api.put(`/projects/${project.id}`, {
         name,
@@ -61,3 +62,4 @@ export default function ProjectModal({ project, onClose, onSaved }) {
     </div>
   );
 }
+

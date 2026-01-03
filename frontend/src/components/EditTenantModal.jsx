@@ -2,6 +2,7 @@ import { useState } from "react";
 import api from "../api/client";
 import "./EditTenantModal.css";
 
+
 export default function EditTenantModal({ tenant, onClose, onSaved }) {
   const [form, setForm] = useState({
     name: tenant.name || "",
@@ -100,3 +101,4 @@ export default function EditTenantModal({ tenant, onClose, onSaved }) {
     </div>
   );
 }
+

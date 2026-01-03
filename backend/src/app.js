@@ -3,7 +3,6 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 
 dotenv.config();
-
 const app = express();
 
 // Middleware
@@ -41,3 +40,4 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+

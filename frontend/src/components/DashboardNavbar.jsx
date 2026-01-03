@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import "./DashboardNavbar.css";
 
 export default function DashboardNavbar() {
+  
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -87,3 +88,4 @@ export default function DashboardNavbar() {
     </nav>
   );
 }
+

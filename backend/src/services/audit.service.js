@@ -1,6 +1,5 @@
 // src/services/audit.service.js
 const db = require('../config/db');
-
 /**
  * Log audit activity
  */
@@ -38,3 +37,4 @@ exports.logAudit = async ({
     ]
   );
 };
+
